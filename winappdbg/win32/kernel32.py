@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2009-2016, Mario Vilas
+# Copyright (c) 2009-2018, Mario Vilas
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -34,10 +34,10 @@ Wrapper for kernel32.dll in ctypes.
 
 import warnings
 
-from defines import *
+from defines import *  # NOQA
 
-import context_i386
-import context_amd64
+import context_i386  # NOQA
+import context_amd64  # NOQA
 
 #==============================================================================
 # This is used later on to calculate the list of exported symbols.
@@ -931,8 +931,7 @@ class FileHandle (Handle):
                                         lpFileInformation, dwBufferSize)
         except AttributeError:
             from ntdll import NtQueryInformationFile, \
-                              FileNameInformation, \
-                              FILE_NAME_INFORMATION
+                              FileNameInformation
             NtQueryInformationFile(self.value,
                                    FileNameInformation,
                                    lpFileInformation,
@@ -1138,7 +1137,7 @@ class MemoryBasicInformation (object):
             copy-on-write. This means the pages are writeable, but changes
             are not propagated to disk.
         @note:
-            Tipically data sections in executable images are marked like this.
+            Typically data sections in executable images are marked like this.
         """
         return self.has_content() and bool(self.Protect & self.COPY_ON_WRITE)
 
@@ -2023,6 +2022,35 @@ class PROCESSENTRY32(Structure):
         ('szExeFile',           TCHAR * 260),
     ]
 LPPROCESSENTRY32 = POINTER(PROCESSENTRY32)
+
+# typedef struct tagPROCESSENTRY32W {
+#    DWORD dwSize;
+#    DWORD cntUsage;
+#    DWORD th32ProcessID;
+#    ULONG_PTR th32DefaultHeapID;
+#    DWORD th32ModuleID;
+#    DWORD cntThreads;
+#    DWORD th32ParentProcessID;
+#    LONG pcPriClassBase;
+#    DWORD dwFlags;
+#    WCHAR szExeFile[MAX_PATH];
+# } PROCESSENTRY32W,  *PPROCESSENTRY32W;
+class PROCESSENTRY32W(Structure):
+    _fields_ = [
+        ('dwSize',              DWORD),
+        ('cntUsage',            DWORD),
+        ('th32ProcessID',       DWORD),
+        ('th32DefaultHeapID',   ULONG_PTR),
+        ('th32ModuleID',        DWORD),
+        ('cntThreads',          DWORD),
+        ('th32ParentProcessID', DWORD),
+        ('pcPriClassBase',      LONG),
+        ('dwFlags',             DWORD),
+        ('szExeFile',           WCHAR * 260),
+    ]
+LPPROCESSENTRY32W = POINTER(PROCESSENTRY32W)
+
+
 
 # typedef struct tagMODULEENTRY32 {
 #   DWORD dwSize;
@@ -3093,44 +3121,6 @@ def GetFinalPathNameByHandleW(hFile, dwFlags = FILE_NAME_NORMALIZED | VOLUME_NAM
 
 GetFinalPathNameByHandle = GuessStringType(GetFinalPathNameByHandleA, GetFinalPathNameByHandleW)
 
-# DWORD GetFullPathName(
-#   LPCTSTR lpFileName,
-#   DWORD nBufferLength,
-#   LPTSTR lpBuffer,
-#   LPTSTR* lpFilePart
-# );
-def GetFullPathNameA(lpFileName):
-    _GetFullPathNameA = windll.kernel32.GetFullPathNameA
-    _GetFullPathNameA.argtypes = [LPSTR, DWORD, LPSTR, POINTER(LPSTR)]
-    _GetFullPathNameA.restype  = DWORD
-
-    nBufferLength = _GetFullPathNameA(lpFileName, 0, None, None)
-    if nBufferLength <= 0:
-        raise ctypes.WinError()
-    lpBuffer   = ctypes.create_string_buffer('', nBufferLength + 1)
-    lpFilePart = LPSTR()
-    nCopied = _GetFullPathNameA(lpFileName, nBufferLength, lpBuffer, byref(lpFilePart))
-    if nCopied > nBufferLength or nCopied == 0:
-        raise ctypes.WinError()
-    return lpBuffer.value, lpFilePart.value
-
-def GetFullPathNameW(lpFileName):
-    _GetFullPathNameW = windll.kernel32.GetFullPathNameW
-    _GetFullPathNameW.argtypes = [LPWSTR, DWORD, LPWSTR, POINTER(LPWSTR)]
-    _GetFullPathNameW.restype  = DWORD
-
-    nBufferLength = _GetFullPathNameW(lpFileName, 0, None, None)
-    if nBufferLength <= 0:
-        raise ctypes.WinError()
-    lpBuffer   = ctypes.create_unicode_buffer(u'', nBufferLength + 1)
-    lpFilePart = LPWSTR()
-    nCopied = _GetFullPathNameW(lpFileName, nBufferLength, lpBuffer, byref(lpFilePart))
-    if nCopied > nBufferLength or nCopied == 0:
-        raise ctypes.WinError()
-    return lpBuffer.value, lpFilePart.value
-
-GetFullPathName = GuessStringType(GetFullPathNameA, GetFullPathNameW)
-
 # DWORD WINAPI GetTempPath(
 #   __in   DWORD nBufferLength,
 #   __out  LPTSTR lpBuffer
@@ -4083,7 +4073,7 @@ def GetProcessId(hProcess):
 #   __in  HANDLE hThread
 # );
 def GetThreadId(hThread):
-    _GetThreadId = windll.kernel32._GetThreadId
+    _GetThreadId = windll.kernel32.GetThreadId
     _GetThreadId.argtypes = [HANDLE]
     _GetThreadId.restype  = DWORD
 

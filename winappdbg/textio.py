@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2009-2016, Mario Vilas
+# Copyright (c) 2009-2018, Mario Vilas
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -189,6 +189,23 @@ class HexInput (StaticClass):
         """
         return re.match(r"^(?:[\?A-Fa-f0-9][\?A-Fa-f0-9]\s*)+$", token)
 
+    @staticmethod
+    def get_pattern_length(token):
+        """
+        Determine the byte length of the given hexadecimal pattern to be
+        used with L{pattern}.
+
+        @type  token: str
+        @param token: String to parse.
+
+        @rtype:  int
+        @return: Length in bytes.
+        """
+        token = ''.join([ c for c in token if c == '?' or c.isalnum() ])
+        if len(token) % 2 != 0:
+            raise ValueError("Missing characters in hex data")
+        return len(token) / 2
+
     @classmethod
     def integer_list_file(cls, filename):
         """
@@ -293,7 +310,7 @@ class HexInput (StaticClass):
             if line:
                 try:
                     value = cls.integer(line)
-                except ValueError, e:
+                except ValueError:
                     value = line
                 result.append(value)
         return result

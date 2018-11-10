@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2009-2016, Mario Vilas
+# Copyright (c) 2009-2018, Mario Vilas
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -55,9 +55,8 @@ Blog:    U{http://breakingcode.wordpress.com}
 @group Memory search:
     Search,
     Pattern,
-    BytePattern,
-    TextPattern,
-    RegExpPattern,
+    StringPattern,
+    IStringPattern,
     HexPattern
 
 @group Debug events:
@@ -181,9 +180,8 @@ __all__ =   [
                 # from search import *
                 'Search',
                 'Pattern',
-                'BytePattern',
-                'TextPattern',
-                'RegExpPattern',
+                'StringPattern',
+                'IStringPattern',
                 'HexPattern',
 
                 # from registry import *
@@ -229,21 +227,21 @@ __all__ =   [
             ]
 
 # Import all public symbols
-from breakpoint import *
-from crash import *
-from debug import *
-from disasm import *
-from event import *
-from interactive import *
-from module import *
-from process import *
-from registry import *
-from system import *
-from search import *
-from textio import *
-from thread import *
-from util import *
-from window import *
+from breakpoint import *  # NOQA
+from crash import *  # NOQA
+from debug import *  # NOQA
+from disasm import *  # NOQA
+from event import *  # NOQA
+from interactive import *  # NOQA
+from module import *  # NOQA
+from process import *  # NOQA
+from registry import *  # NOQA
+from system import *  # NOQA
+from search import *  # NOQA
+from textio import *  # NOQA
+from thread import *  # NOQA
+from util import *  # NOQA
+from window import *  # NOQA
 
 import win32
 from win32 import Handle, ProcessHandle, ThreadHandle, FileHandle

@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2009-2016, Mario Vilas
+# Copyright (c) 2009-2018, Mario Vilas
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -667,7 +667,7 @@ class Registry (_RegistryContainer):
         """
         if path.endswith('\\'):
             path = path[:-1]
-        if not self.has_key(path):
+        if not self.has_key(path):  # NOQA
             raise KeyError(path)
         stack = collections.deque()
         stack.appendleft(path)

@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2009-2016, Mario Vilas
+# Copyright (c) 2009-2018, Mario Vilas
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -29,6 +29,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from time import sleep
+
 from winappdbg import System, win32
 
 
@@ -87,7 +88,7 @@ def wait_for_service( service, wait_state, timeout = 20 ):
     while descriptor.CurrentState == wait_state:
         timeout -= 1
         if timeout <= 0:
-            raise RuntimeException( "Error: timed out." )
+            raise RuntimeError( "Error: timed out." )
         sleep( 0.5 )
         descriptor = System.get_service( service )
 

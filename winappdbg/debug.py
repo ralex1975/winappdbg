@@ -1,7 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2009-2016, Mario Vilas
+# Copyright (c) 2009-2018, Mario Vilas
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -46,8 +46,8 @@ from process import Process
 from thread import Thread
 from module import Module
 from window import Window
-from breakpoint import _BreakpointContainer, CodeBreakpoint
-from event import Event, EventHandler, EventDispatcher, EventFactory
+from breakpoint import _BreakpointContainer
+from event import Event, EventDispatcher, EventFactory
 from interactive import ConsoleDebugger
 
 import warnings
@@ -1079,7 +1079,7 @@ class Debug (EventDispatcher, _BreakpointContainer):
             event handler raises an exception nobody catches.
         """
         try:
-            event = self.wait()
+            event = self.wait()  # NOQA
         except Exception:
             self.stop()
             raise
@@ -1508,7 +1508,7 @@ class Debug (EventDispatcher, _BreakpointContainer):
         if dwType == 0x1000:
             pszName     = event.get_exception_information(1)
             dwThreadId  = event.get_exception_information(2)
-            dwFlags     = event.get_exception_information(3)
+##            dwFlags     = event.get_exception_information(3)
 
             aProcess = event.get_process()
             szName   = aProcess.peek_string(pszName, fUnicode = False)

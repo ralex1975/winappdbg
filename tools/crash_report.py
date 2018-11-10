@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Crash logger report (see crash_logger.py)
-# Copyright (c) 2009-2016, Mario Vilas
+# Copyright (c) 2009-2018, Mario Vilas
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -34,7 +34,7 @@ import sys
 import time
 import optparse
 
-from winappdbg import Crash, CrashContainer, CrashDictionary, win32
+from winappdbg import CrashContainer, CrashDictionary
 
 from crash_logger import CrashLogger
 

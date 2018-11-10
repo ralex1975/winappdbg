@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2009-2016, Mario Vilas
+# Copyright (c) 2009-2018, Mario Vilas
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,7 @@ Wrapper for shell32.dll in ctypes.
 # * Add a class wrapper to SHELLEXECUTEINFO
 # * More logic into ShellExecuteEx
 
-from defines import *
+from defines import *  # NOQA
 from kernel32 import LocalFree
 
 #==============================================================================

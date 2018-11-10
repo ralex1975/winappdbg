@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2009-2016, Mario Vilas
+# Copyright (c) 2009-2018, Mario Vilas
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -32,8 +32,8 @@
 Wrapper for wtsapi32.dll in ctypes.
 """
 
-from defines import *
-from advapi32 import *
+from defines import *  # NOQA
+from advapi32 import *  # NOQA
 
 #==============================================================================
 # This is used later on to calculate the list of exported symbols.

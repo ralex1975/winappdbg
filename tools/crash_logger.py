@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Crash logger
-# Copyright (c) 2009-2016, Mario Vilas
+# Copyright (c) 2009-2018, Mario Vilas
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,7 @@ __all__ =   [
             ]
 
 import winappdbg
-from winappdbg import *
+from winappdbg import *  # NOQA
 
 import re
 import os
@@ -82,7 +82,7 @@ class LoggingEventHandler(EventHandler):
 
     @type crashCollector: class
     @cvar crashCollector:
-        Crash collector class. Tipically L{Crash} or a custom subclass of it.
+        Crash collector class. Typically L{Crash} or a custom subclass of it.
 
         Most users don't ever need to change this.
         See: U{http://winappdbg.readthedocs.io/en/latest/Signature.html}
@@ -322,11 +322,11 @@ class LoggingEventHandler(EventHandler):
             if label not in self.labelsCache[dwProcessId]:
                 try:
                     address = aModule.resolve_label(label)
-                except ValueError, e:
+                except ValueError:
                     address = None
-                except RuntimeError, e:
+                except RuntimeError:
                     address = None
-                except WindowsError, e:
+                except WindowsError:
                     address = None
                 if address is not None:
                     self.labelsCache[dwProcessId][label] = address
@@ -1110,9 +1110,8 @@ class CrashLogger (object):
     def run(self, config, options):
 
         # Create the event handler
-        oldCrashCount = 0
-        eventHandler  = LoggingEventHandler(options, config)
-        logger        = eventHandler.logger
+        eventHandler = LoggingEventHandler(options, config)
+        logger       = eventHandler.logger
 
         # Log the time we begin this run
         if options.verbose:
